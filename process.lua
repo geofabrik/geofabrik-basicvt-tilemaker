@@ -259,7 +259,11 @@ function process_place_layer()
 		local populationNum = tonumber(population)
 		if populationNum ~= nil then
 			AttributeNumeric("population", populationNum)
-			ZOrder(populationNum)
+			-- Tilemaker uses a short for the sortable number.
+			-- Therefore, we have to reduce resolution and ensure that our values fit within the range.
+			local populationForSorting = populationNum / 1000
+			populationForSorting = math.max(0, math.min(populationForSorting, 2^15 - 1))
+			ZOrder(populationForSorting)
 		end
 	end
 end
